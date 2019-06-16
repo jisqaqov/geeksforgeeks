@@ -63,10 +63,8 @@ public class DetectCycleInaDirectedGraph {
                 return true;
             }
 
-            if (!visited[adj]) {
-                if (dfs(adj, list, visited, explored)) {
-                    return true;
-                }
+            if (!visited[adj] && dfs(adj, list, visited, explored)) {
+                return true;
             }
         }
 
