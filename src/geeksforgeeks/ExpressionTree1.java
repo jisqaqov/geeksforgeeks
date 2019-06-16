@@ -3,9 +3,9 @@ package geeksforgeeks;
 /**
  * @author Jandos Iskakov
  * problem: https://practice.geeksforgeeks.org/problems/expression-tree/1
+ * algorithm: Tree
  * time complexity: O(n)
  * space complexity: O(1)
- * algorithm: Tree
  */
 public class ExpressionTree1 {
 

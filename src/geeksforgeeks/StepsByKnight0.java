@@ -6,6 +6,13 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.*;
 
+/**
+ * @author Jandos Iskakov
+ * problem: https://practice.geeksforgeeks.org/problems/steps-by-knight/0
+ * algorithm: BFS
+ * time complexity: O(N*M)
+ * space complexity: O(N*M)
+ */
 public class StepsByKnight0 {
     private FastReader in;
     private PrintWriter out;

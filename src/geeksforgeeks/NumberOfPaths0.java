@@ -6,6 +6,13 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.StringTokenizer;
 
+/**
+ * @author Jandos Iskakov
+ * problem: https://practice.geeksforgeeks.org/problems/number-of-paths/0
+ * algorithm: DP
+ * time complexity: O(N*M)
+ * space complexity: O(N*M)
+ */
 public class NumberOfPaths0 {
     private FastReader in;
     private PrintWriter out;
