@@ -1,5 +1,11 @@
 package geeksforgeeks;
 
+/**
+ * @author Jandos Iskakov
+ * problem: Check if Linked List is Palindrome
+ * link to problem: https://practice.geeksforgeeks.org/problems/check-if-linked-list-is-pallindrome/1
+ * algorithm: Linked List, Recursion
+ */
 public class CheckIfLinkedListIsPalindrome {
 
   private Node head = null;
