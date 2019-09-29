@@ -3,7 +3,9 @@ package geeksforgeeks;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -32,10 +34,12 @@ public class DetectCycleInAnUndirectedGraph {
       for (int i = 1; i <= edg; i++) {
         int u = sc.nextInt();
         int v = sc.nextInt();
+
         list.get(u).add(v);
         list.get(v).add(u);
       }
-      if (isCyclic(list, nov)) {
+
+      if (isCyclicUsingBfs(list, nov)) {
         System.out.println("1");
       } else {
         System.out.println("0");
@@ -43,7 +47,7 @@ public class DetectCycleInAnUndirectedGraph {
     }
   }
 
-  static boolean isCyclic(ArrayList<ArrayList<Integer>> list, int n) {
+  static boolean isCyclicUsingUnionFind(ArrayList<ArrayList<Integer>> list, int n) {
     if (n == 0 || list.size() == 0) {
       return false;
     }
@@ -87,6 +91,54 @@ public class DetectCycleInAnUndirectedGraph {
 
         union(ds, u, v);
       }
+    }
+
+    return false;
+  }
+
+  static boolean isCyclicUsingBfs(ArrayList<ArrayList<Integer>> list, int n) {
+    if (n == 0 || list.size() == 0) {
+      return false;
+    }
+
+    Set<Integer> visited = new HashSet<>();
+
+    for (int u = 0; u < n; u++) {
+      if (visited.contains(u)) {
+        continue;
+      }
+
+      visited.add(u);
+
+      Queue<Integer> queue = new LinkedList<>();
+      queue.add(u);
+
+      Set<Integer> marked = new HashSet<>();
+
+      while (!queue.isEmpty()) {
+        int curr = queue.poll();
+
+        visited.add(curr);
+
+        for (int v : list.get(curr)) {
+          if (curr == v) {
+            return true;
+          }
+
+          if (visited.contains(v)) {
+            continue;
+          }
+
+          if (marked.contains(v)) {
+            return true;
+          }
+
+          marked.add(v);
+          queue.add(v);
+        }
+      }
+
+      visited.addAll(marked);
     }
 
     return false;
