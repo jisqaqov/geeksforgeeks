@@ -52,11 +52,6 @@ public class DetectCycleInAnUndirectedGraph {
       return false;
     }
 
-    int[] ds = new int[n];
-    for (int i = 0; i < n; i++) {
-      ds[i] = i;
-    }
-
     Map<Integer, Set<Integer>> adjList = new HashMap<>();
 
     for (int u = 0; u < n; u++) {
@@ -71,6 +66,7 @@ public class DetectCycleInAnUndirectedGraph {
       }
     }
 
+    DisjointSet ds = new DisjointSet(n);
     Map<Integer, Set<Integer>> visited = new HashMap<>();
 
     for (int u = 0; u < n; u++) {
@@ -79,7 +75,7 @@ public class DetectCycleInAnUndirectedGraph {
           continue;
         }
 
-        if (u == v || parent(ds, u) == parent(ds, v)) {
+        if (u == v || ds.parent(u) == ds.parent(v)) {
           return true;
         }
 
@@ -89,11 +85,39 @@ public class DetectCycleInAnUndirectedGraph {
         visited.get(u).add(v);
         visited.get(v).add(u);
 
-        union(ds, u, v);
+        ds.union(u, v);
       }
     }
 
     return false;
+  }
+
+  private static class DisjointSet {
+    private int[] ds;
+
+    DisjointSet(int n) {
+      this.ds = new int[n];
+
+      for (int i = 0; i < n; i++) {
+        ds[i] = i;
+      }
+    }
+
+    private int parent(int i) {
+      while (ds[i] != i) {
+        ds[i] = ds[ds[i]];
+        i = ds[i];
+      }
+
+      return i;
+    }
+
+    private void union(int i, int j) {
+      int rootX = parent(i);
+      int rootY = parent(j);
+
+      ds[rootX] = rootY;
+    }
   }
 
   private static boolean isCyclicUsingBfs(ArrayList<ArrayList<Integer>> list, int n) {
@@ -152,7 +176,7 @@ public class DetectCycleInAnUndirectedGraph {
     Set<Integer> visited = new HashSet<>();
 
     for (int v = 0; v < n; v++) {
-      if (!visited.contains(v) && dfs(-1, v, visited, list)) {
+      if (!visited.contains(v) && isCyclicUsingDfs(-1, v, visited, list)) {
         return true;
       }
     }
@@ -160,7 +184,7 @@ public class DetectCycleInAnUndirectedGraph {
     return false;
   }
 
-  private static boolean dfs(int parent, int node, Set<Integer> visited,
+  private static boolean isCyclicUsingDfs(int parent, int node, Set<Integer> visited,
     ArrayList<ArrayList<Integer>> adjList) {
     visited.add(node);
 
@@ -176,28 +200,12 @@ public class DetectCycleInAnUndirectedGraph {
         continue;
       }
 
-      if (visited.contains(adj) || dfs(node, adj, visited, adjList)) {
+      if (visited.contains(adj) || isCyclicUsingDfs(node, adj, visited, adjList)) {
         return true;
       }
     }
 
     return false;
-  }
-
-  private static int parent(int[] ds, int i) {
-    while (ds[i] != i) {
-      ds[i] = ds[ds[i]];
-      i = ds[i];
-    }
-
-    return i;
-  }
-
-  private static void union(int[] ds, int i, int j) {
-    int rootX = parent(ds, i);
-    int rootY = parent(ds, j);
-
-    ds[rootX] = rootY;
   }
 
 }
