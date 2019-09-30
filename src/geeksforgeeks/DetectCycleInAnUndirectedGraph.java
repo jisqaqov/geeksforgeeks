@@ -11,7 +11,7 @@ import java.util.Set;
 
 /**
  * @author Jandos Iskakov
- * problem: https://practice.geeksforgeeks.org/problems/detect-cycle-in-a-directed-graph/1
+ * problem: https://practice.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1
  * algorithm: Union Find
  * time complexity: O(V+E)
  * space complexity: O(V+E)
@@ -39,7 +39,7 @@ public class DetectCycleInAnUndirectedGraph {
         list.get(v).add(u);
       }
 
-      if (isCyclicUsingBfs(list, nov)) {
+      if (isCyclicUsingDfs(list, nov)) {
         System.out.println("1");
       } else {
         System.out.println("0");
@@ -96,7 +96,7 @@ public class DetectCycleInAnUndirectedGraph {
     return false;
   }
 
-  static boolean isCyclicUsingBfs(ArrayList<ArrayList<Integer>> list, int n) {
+  private static boolean isCyclicUsingBfs(ArrayList<ArrayList<Integer>> list, int n) {
     if (n == 0 || list.size() == 0) {
       return false;
     }
@@ -140,6 +140,53 @@ public class DetectCycleInAnUndirectedGraph {
 
       visited.addAll(marked);
     }
+
+    return false;
+  }
+
+  public static boolean isCyclicUsingDfs(ArrayList<ArrayList<Integer>> list, int n) {
+    if (n <= 0) {
+      return false;
+    }
+
+    Set<Integer> visited = new HashSet<>();
+    Set<Integer> explored = new HashSet<>();
+
+    for (int v = 0; v < n; v++) {
+      if (!visited.contains(v) && dfs(-1, v, visited, explored, list)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  private static boolean dfs(int parent, int node, Set<Integer> visited,
+    Set<Integer> explored, ArrayList<ArrayList<Integer>> adjList) {
+    visited.add(node);
+
+    boolean checked = false;
+
+    for (Integer adj : adjList.get(node)) {
+      if (adj == parent) {
+        if (checked) {
+          return true;
+        }
+
+        checked = true;
+        continue;
+      }
+
+      if (visited.contains(adj) && !explored.contains(adj)) {
+        return true;
+      } else if (!visited.contains(adj)) {
+        if (dfs(node, adj, visited, explored, adjList)) {
+          return true;
+        }
+      }
+    }
+
+    explored.add(node);
 
     return false;
   }
