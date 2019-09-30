@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * @author Jandos Iskakov
  * problem: https://practice.geeksforgeeks.org/problems/detect-cycle-in-an-undirected-graph/1
- * algorithm: Union Find
+ * algorithm: Union Find, DFS, BFS
  * time complexity: O(V+E)
  * space complexity: O(V+E)
  */
