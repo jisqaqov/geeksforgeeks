@@ -150,10 +150,9 @@ public class DetectCycleInAnUndirectedGraph {
     }
 
     Set<Integer> visited = new HashSet<>();
-    Set<Integer> explored = new HashSet<>();
 
     for (int v = 0; v < n; v++) {
-      if (!visited.contains(v) && dfs(-1, v, visited, explored, list)) {
+      if (!visited.contains(v) && dfs(-1, v, visited, list)) {
         return true;
       }
     }
@@ -162,7 +161,7 @@ public class DetectCycleInAnUndirectedGraph {
   }
 
   private static boolean dfs(int parent, int node, Set<Integer> visited,
-    Set<Integer> explored, ArrayList<ArrayList<Integer>> adjList) {
+    ArrayList<ArrayList<Integer>> adjList) {
     visited.add(node);
 
     boolean checked = false;
@@ -177,16 +176,10 @@ public class DetectCycleInAnUndirectedGraph {
         continue;
       }
 
-      if (visited.contains(adj) && !explored.contains(adj)) {
+      if (visited.contains(adj) || dfs(node, adj, visited, adjList)) {
         return true;
-      } else if (!visited.contains(adj)) {
-        if (dfs(node, adj, visited, explored, adjList)) {
-          return true;
-        }
       }
     }
-
-    explored.add(node);
 
     return false;
   }
